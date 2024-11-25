@@ -1,0 +1,398 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/reports/api/v1/reports":
+    get:
+      summary: list reports
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+    post:
+      summary: create report
+      tags:
+      - Report
+      operationId: create_report
+      parameters: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/report"
+        required: true
+  "/reports/api/v1/reports/{id}":
+    get:
+      summary: retrive a report
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+    put:
+      summary: update a report
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/report"
+    delete:
+      summary: destroy a report
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+  "/reports/api/v1/reports/{id}/report_datas":
+    post:
+      summary: list report_datas
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+  "/reports/api/v1/reports/{id}/update_report":
+    post:
+      summary: update a report
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+  "/reports/api/v1/reports/{id}/export_as_excel":
+    get:
+      summary: export a report data as excel
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+  "/reports/api/v1/multi_business_reports":
+    get:
+      summary: list multi business reports
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+    post:
+      summary: create multi business report
+      tags:
+      - Report
+      operationId: create_report
+      parameters: []
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/multi_business_report"
+        required: true
+  "/reports/api/v1/multi_business_reports/{id}":
+    get:
+      summary: retrive a multi business report
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+    put:
+      summary: update a multi business report
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/multi_business_report"
+    delete:
+      summary: destroy a report
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+  "/reports/api/v1/multi_business_reports/{id}/multi_business_report_datas":
+    post:
+      summary: list report_datas
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+  "/reports/api/v1/multi_business_reports/{id}/update_report":
+    post:
+      summary: update a multi business report
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+  "/reports/api/v1/multi_business_reports/{id}/export_as_excel":
+    get:
+      summary: export a report data as excel
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+  "/reports/api/v1/templates":
+    get:
+      summary: list templates
+      parameters:
+      - name: standard_category_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: successful
+  "/reports/api/v1/reports/{report_id}/items":
+    get:
+      summary: list items
+      tags:
+      - Item
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+    post:
+      summary: create item
+      tags:
+      - Item
+      operationId: create_item
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/item"
+        required: true
+  "/reports/api/v1/reports/{report_id}/items/{id}":
+    put:
+      summary: update item
+      tags:
+      - Item
+      operationId: update_item
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/item"
+        required: true
+    delete:
+      summary: delete item
+      tags:
+      - Item
+      operationId: delete_item
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/item"
+        required: true
+  "/reports/api/v1/reports/{report_id}/item_accounts":
+    get:
+      summary: list item_accounts
+      tags:
+      - ItemAccount
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: parent_item_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: child_item_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+        '403':
+          description: permission error
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/item_account"
+  "/reports/api/v1/reports/{report_id}/item_accounts/create_batch":
+    post:
+      summary: create item_accounts
+      tags:
+      - ItemAccount
+      operationId: create_batch
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '201':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/item_account"
+        required: true
+  "/reports/api/v1/reports/{report_id}/item_accounts/destroy_batch":
+    delete:
+      summary: delete item_accounts
+      tags:
+      - ItemAccount
+      operationId: delete_item_accounts
+      parameters:
+      - name: report_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful
+        required: true
+  "/reports/api/v1/reports/{report_id}/item_values":
+    get:
+      summary: list item values
+      responses:
+        '200':
+          description: successful
+  "/reports/api/v1/reports/{report_id}/item_values/{id}":
+    get:
+      summary: get an item value
+      responses:
+        '200':
+          description: successful
+  "/reports/api/v1/reports/{report_id}/item_values/{item_value_id}/item_account_values/{id}":
+    get:
+      summary: get an item account value
+      responses:
+        '200':
+          description: successful
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
+components:
+  schemas:
+    report:
+      type: object
+      properties:
+        id:
+          type: integer
+        report_service_id:
+          type: integer
+        template_id:
+          type: string
+        name:
+          type: string
+      required:
+      - report_service_id
+      - template_id
+      - name
+    item:
+      type: object
+      properties:
+        id:
+          type: string
+        report_service_id:
+          type: integer
+        report_id:
+          type: string
+        parent_item_id:
+          type: string
+        name:
+          type: string
+      required:
+      - parent_item_id
+      - name
+    item_account:
+      type: object
+      properties:
+        id:
+          type: string
+        report_service_id:
+          type: integer
+        report_id:
+          type: string
+        parent_item_id:
+          type: string
+        child_item_id:
+          type: string
+      required:
+      - parent_item_id
+      - child_item_id

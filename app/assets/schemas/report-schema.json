@@ -1,0 +1,383 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "title": "Report",
+  "description": "A standard report",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique textual ID of the template"
+    },
+    "name": {
+      "type": "string",
+      "description": "User-facing name of the template"
+    },
+    "rank": {
+      "type": "integer",
+      "default": 0,
+      "description": "Defines template's position in the list of templates. The lower the rank, the higher the position will be in the list."
+    },
+    "standard_category_ids": {
+      "type": "array",
+      "description": "A list of standard industries where this template will be shown",
+      "items": [
+        {
+          "type": "integer"
+        }
+      ]
+    },
+    "draft": {
+      "type": "boolean",
+      "description": "When true, template won't be visible in the UI",
+      "default": false
+    },
+    "period_type": {
+      "type": "string",
+      "description": "Type of report - daily or monthly",
+      "enum": [
+        "daily",
+        "monthly"
+      ],
+      "default": "monthly"
+    },
+    "missing_transactions_calculation_disabled": {
+      "type": "boolean",
+      "description": "Tells if template requires to calculate missing Ledger transactions",
+      "default": true
+    },
+    "factory_class": {
+      "type": "string",
+      "description": "This field represents which report factory class is used for this report",
+      "default": "ReportFactory"
+    },
+    "enabled_budget_compare": {
+      "type": "boolean",
+      "description": "Does this report report compare feature?",
+      "default": true
+    },
+    "enabled_blank_value_for_metric": {
+      "type": "boolean",
+      "description": "Can the value of item_value be nil for the metric of this report?",
+      "default": false
+    },
+    "total_column_visible": {
+      "type": "boolean",
+      "description": "Hide or show total column?",
+      "default": true
+    },
+    "multi_entity_columns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of the column",
+            "enum": [
+              "actual",
+              "percentage",
+              "gross_actual",
+              "gross_percentage"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Column name"
+          }
+        },
+        "required": [
+          "type",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "view_by_options": {
+      "type": "array",
+      "description": "A list of metric codes that will be used to slice the data by in the UI. Every metric in the list will be presented as a checkbox.",
+      "items": [
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "depends_on": {
+      "type": "array",
+      "description": "A list of reports on which this report depend upon",
+      "items": [
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "accounting_class_check_disabled": {
+      "type": "boolean",
+      "description": "Tells if template calculate values without checking accounting department",
+      "default": false
+    },
+    "edit_mapping_disabled": {
+      "type": "boolean",
+      "description": "Tell if user can edit mapping",
+      "default": false
+    },
+    "columns": {
+      "type": "array",
+      "description": "Columns that will be shown in this report",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Column type",
+            "enum": [
+              "actual",
+              "percentage",
+              "budget_actual",
+              "budget_percentage",
+              "budget_variance",
+              "variance",
+              "variance_percentage",
+              "gross_percentage",
+              "gross_actual"
+            ]
+          },
+          "range": {
+            "type": "string",
+            "description": "Date range that this column is covering",
+            "enum": [
+              "current_period",
+              "ytd",
+              "mtd"
+            ]
+          },
+          "year": {
+            "type": "string",
+            "description": "Year that is covered by this column",
+            "enum": [
+              "current",
+              "prior",
+              "previous_period"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "description": "Column name"
+          }
+        },
+        "required": [
+          "type",
+          "range",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "items": {
+      "type": "array",
+      "description": "List of report rows",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique textual identifier of this row"
+          },
+          "parent_id": {
+            "type": "string",
+            "description": "A reference to the parent row (when the row is nested)"
+          },
+          "name": {
+            "type": "string",
+            "description": "User-facing name of the row"
+          },
+          "totals": {
+            "type": "boolean",
+            "description": "Calculate totals for this section?",
+            "default": false
+          },
+          "show": {
+            "type": "boolean",
+            "description": "Show total row?",
+            "default": true
+          },
+          "negative_for_total": {
+            "type": "boolean",
+            "description": "This field is used when calculate total value of parent item with negative number",
+            "default": false
+          },
+          "negative": {
+            "type": "boolean",
+            "description": "This field represents that this item's actual value will be multipled with -1",
+            "default": false
+          },
+          "balance_sheet": {
+            "type": "boolean",
+            "description": "Use balance sheet ledger for calculation?",
+            "default": false
+          },
+          "depth_diff": {
+            "type": "integer",
+            "description": "This field is used for displaying the item in report table from front-end"
+          },
+          "_description": {
+            "type": "string",
+            "description": "User-facing description of the row"
+          },
+          "account_type": {
+            "type": "string",
+            "description": "This field indicates chart of account type for balance sheet report's leaf item"
+          },
+          "type": {
+            "type": "object",
+            "description": "Defines how the row is calculated",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Type of the row",
+                "enum": [
+                  "quickbooks_ledger",
+                  "metric",
+                  "reference",
+                  "stats"
+                ]
+              },
+              "reference": {
+                "type": "string",
+                "description": "(used for type = reference) A reference to row ID from another report"
+              },
+              "src_column_range": {
+                "type": "string",
+                "description": "???"
+              },
+              "calculation_type": {
+                "type": "string",
+                "description": "Type of calculation to use in Quickbooks",
+                "enum": [
+                  "bs_net_change",
+                  "bs_prior_day",
+                  "general_ledger",
+                  "bs_balance",
+                  "bank_general_ledger",
+                  "tax_collected_value",
+                  "debits_only",
+                  "credits_only"
+                ],
+                "default": "general_ledger"
+              },
+              "exclude_ledgers": {
+                "type": "string",
+                "description": "Ledgers to exclude from common ledger for tax calculation type",
+                "enum": [
+                  "bank",
+                  "bank_and_accounts_payable"
+                ],
+                "default": "general_ledger"
+              },
+              "use_mapping": {
+                "type": "object",
+                "description": "A property that enables this row to re-use mapping from another row",
+                "properties": {
+                  "item_id": {
+                    "type": "string",
+                    "description": "ID of the row from which the mapping will be used in this row"
+                  }
+                }
+              },
+              "metric": {
+                "type": "object"
+              },
+              "default_accounts": {
+                "type": "array",
+                "description": "List of chart of accounts that will be loaded by default into mapping",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "account_type": {
+                      "type": "string"
+                    },
+                    "account_detail_type": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "account_type",
+                    "account_detail_type"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "name"
+            ],
+            "additionalProperties": false
+          },
+          "values": {
+            "type": "object",
+            "description": "Formulae that is used to calculate the value for this row",
+            "properties": {
+              "actual": {
+                "type": "object",
+                "description": "How to calculate values for actual column",
+                "properties": {
+                  "value": {
+                    "type": "object"
+                  }
+                }
+              },
+              "percentage": {
+                "type": "object",
+                "description": "How to calculate values for percentage column",
+                "properties": {
+                  "value": {
+                    "type": "object"
+                  }
+                }
+              },
+              "variance_percentage": {
+                "type": "object",
+                "description": "How to calculate values for variance percentage column",
+                "properties": {
+                  "value": {
+                    "type": "object"
+                  }
+                }
+              },
+              "gross_actual": {
+                "type": "object",
+                "description": "How to calculate values for gross actual column",
+                "properties": {
+                  "value": {
+                    "type": "object"
+                  }
+                }
+              },
+              "gross_percentage": {
+                "type": "object",
+                "description": "How to calculate values for gross percentage column",
+                "properties": {
+                  "value": {
+                    "type": "object"
+                  }
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "columns",
+    "items"
+  ],
+  "additionalProperties": false
+}

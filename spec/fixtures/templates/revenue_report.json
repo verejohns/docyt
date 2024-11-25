@@ -1,0 +1,439 @@
+{
+  "id": "revenue_report",
+  "name": "Daily/Monthly Revenue report",
+  "rank": 17,
+  "standard_category_ids": [
+    9
+  ],
+  "draft": false,
+  "period_type": "daily",
+  "columns": [
+    {
+      "type": "actual",
+      "range": "current_period",
+      "year": "current",
+      "name": "PTD $"
+    },
+    {
+      "type": "budget_actual",
+      "range": "current_period",
+      "year": "current",
+      "name": "Budget $"
+    },
+    {
+      "type": "budget_percentage",
+      "range": "current_period",
+      "year": "current",
+      "name": "Budget %"
+    },
+    {
+      "type": "budget_variance",
+      "range": "current_period",
+      "name": "Budget Var"
+    },
+    {
+      "type": "actual",
+      "range": "current_period",
+      "year": "prior",
+      "name": "PTD LY $"
+    },
+    {
+      "type": "variance",
+      "range": "current_period",
+      "name": "PTD Var"
+    },
+    {
+      "type": "actual",
+      "range": "mtd",
+      "year": "current",
+      "name": "MTD"
+    },
+    {
+      "type": "actual",
+      "range": "ytd",
+      "year": "current",
+      "name": "YTD $"
+    },
+    {
+      "type": "budget_actual",
+      "range": "ytd",
+      "year": "current",
+      "name": "Budget $"
+    },
+    {
+      "type": "budget_variance",
+      "range": "ytd",
+      "name": "Budget Var"
+    },
+    {
+      "type": "actual",
+      "range": "ytd",
+      "year": "prior",
+      "name": "YTD LY $"
+    },
+    {
+      "type": "variance",
+      "range": "ytd",
+      "name": "YTD Var"
+    }
+  ],
+  "missing_transactions_calculation_disabled": false,
+  "view_by_options": [
+    "rooms_sold"
+  ],
+  "items": [
+    {
+      "id": "metrics",
+      "name": "Metrics",
+      "_description": "This section consists of items that use standard hotel metrics to calculate the values"
+    },
+    {
+      "id": "rooms_available",
+      "name": "Rooms Available to sell",
+      "parent_id": "metrics",
+      "type": {
+        "name": "metric",
+        "metric": {
+          "name": "Available Rooms",
+          "code": "rooms_available"
+        }
+      }
+    },
+    {
+      "id": "rooms_sold",
+      "name": "Rooms Sold",
+      "parent_id": "metrics",
+      "type": {
+        "name": "metric",
+        "metric": {
+          "name": "Sold Rooms",
+          "code": "rooms_sold"
+        }
+      }
+    },
+    {
+      "id": "occupancy_percent",
+      "name": "Occupancy percentage",
+      "parent_id": "metrics",
+      "type": {
+        "name": "stats"
+      },
+      "values": {
+        "actual": {
+          "value": {
+            "expression": {
+              "operator": "%",
+              "arg1": {
+                "item_id": "rooms_sold"
+              },
+              "arg2": {
+                "item_id": "rooms_available"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "adr",
+      "name": "ADR",
+      "parent_id": "metrics",
+      "type": {
+        "name": "stats"
+      },
+      "values": {
+        "actual": {
+          "value": {
+            "expression": {
+              "operator": "/",
+              "arg1": {
+                "item_id": "rooms_revenue"
+              },
+              "arg2": {
+                "item_id": "rooms_sold"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "revpar",
+      "name": "Revpar",
+      "parent_id": "metrics",
+      "type": {
+        "name": "stats"
+      },
+      "values": {
+        "actual": {
+          "value": {
+            "expression": {
+              "operator": "/",
+              "arg1": {
+                "item_id": "rooms_revenue"
+              },
+              "arg2": {
+                "item_id": "rooms_available"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "revenue_department",
+      "name": "Revenue by Departments",
+      "_description": "This section consists of items that use standard hotel metrics to calculate the values"
+    },
+    {
+      "id": "rooms_revenue",
+      "name": "Rooms Revenue",
+      "parent_id": "revenue_department",
+      "type": {
+        "name": "quickbooks_ledger"
+      }
+    },
+    {
+      "id": "minor_operated",
+      "name": "Minor Operated",
+      "parent_id": "revenue_department",
+      "type": {
+        "name": "quickbooks_ledger"
+      }
+    },
+    {
+      "id": "f_b",
+      "name": "F&B",
+      "parent_id": "revenue_department",
+      "type": {
+        "name": "quickbooks_ledger"
+      }
+    },
+    {
+      "id": "misc",
+      "name": "MISC",
+      "parent_id": "revenue_department",
+      "type": {
+        "name": "quickbooks_ledger"
+      }
+    },
+    {
+      "id": "total",
+      "name": "Total",
+      "parent_id": "revenue_department",
+      "type": {
+        "name": "stats"
+      },
+      "values": {
+        "actual": {
+          "value": {
+            "expression": {
+              "operator": "sum",
+              "arg": {
+                "sub_items": [
+                  {
+                    "id": "rooms_revenue",
+                    "negative": false
+                  },
+                  {
+                    "id": "minor_operated",
+                    "negative": false
+                  },
+                  {
+                    "id": "f_b",
+                    "negative": false
+                  },
+                  {
+                    "id": "misc",
+                    "negative": false
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "tax_collected",
+      "name": "Tax Collected",
+      "parent_id": "revenue_department",
+      "type": {
+        "name": "quickbooks_ledger"
+      }
+    },
+    {
+      "id": "net",
+      "name": "Net",
+      "parent_id": "revenue_department",
+      "type": {
+        "name": "stats"
+      },
+      "values": {
+        "actual": {
+          "value": {
+            "expression": {
+              "operator": "-",
+              "arg1": {
+                "item_id": "total"
+              },
+              "arg2": {
+                "item_id": "tax_collected"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "guest_ledger",
+      "name": "Guest ledger",
+      "balance_sheet": true,
+      "_description": "This section consists of items that use standard hotel metrics to calculate the values"
+    },
+    {
+      "id": "guest_begin_period_balance",
+      "name": "Beginning of Period Balance",
+      "balance_sheet": true,
+      "parent_id": "guest_ledger",
+      "type": {
+        "name": "quickbooks_ledger",
+        "calculation_type": "bs_prior_day"
+      }
+    },
+    {
+      "id": "guest_net_change",
+      "name": "Net Change",
+      "balance_sheet": true,
+      "parent_id": "guest_ledger",
+      "type": {
+        "name": "quickbooks_ledger",
+        "calculation_type": "bs_balance"
+      }
+    },
+    {
+      "id": "guest_end_period_balance",
+      "name": "End of Period Balance",
+      "balance_sheet": true,
+      "parent_id": "guest_ledger",
+      "type": {
+        "name": "stats"
+      },
+      "values": {
+        "actual": {
+          "value": {
+            "expression": {
+              "operator": "+",
+              "arg1": {
+                "item_id": "guest_net_change"
+              },
+              "arg2": {
+                "item_id": "guest_begin_period_balance"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "city_ledger",
+      "name": "City ledger",
+      "balance_sheet": true,
+      "_description": "This section consists of items that use standard hotel metrics to calculate the values"
+    },
+    {
+      "id": "city_begin_period_balance",
+      "name": "Beginning of Period Balance",
+      "balance_sheet": true,
+      "parent_id": "city_ledger",
+      "type": {
+        "name": "quickbooks_ledger",
+        "calculation_type": "bs_prior_day"
+      }
+    },
+    {
+      "id": "city_net_change",
+      "name": "Net Change",
+      "balance_sheet": true,
+      "parent_id": "city_ledger",
+      "type": {
+        "name": "quickbooks_ledger",
+        "calculation_type": "bs_balance"
+      }
+    },
+    {
+      "id": "city_end_period_balance",
+      "name": "End of Period Balance",
+      "balance_sheet": true,
+      "parent_id": "city_ledger",
+      "type": {
+        "name": "stats"
+      },
+      "values": {
+        "actual": {
+          "value": {
+            "expression": {
+              "operator": "+",
+              "arg1": {
+                "item_id": "city_begin_period_balance"
+              },
+              "arg2": {
+                "item_id": "city_net_change"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "advance_deposit",
+      "name": "Advance Deposit",
+      "balance_sheet": true,
+      "_description": "This section consists of items that use standard hotel metrics to calculate the values"
+    },
+    {
+      "id": "advance_begin_period_balance",
+      "name": "Beginning of Period Balance",
+      "balance_sheet": true,
+      "parent_id": "advance_deposit",
+      "type": {
+        "name": "quickbooks_ledger",
+        "calculation_type": "bs_prior_day"
+      }
+    },
+    {
+      "id": "advance_net_change",
+      "name": "Net Change",
+      "balance_sheet": true,
+      "parent_id": "advance_deposit",
+      "type": {
+        "name": "quickbooks_ledger",
+        "calculation_type": "bs_balance"
+      }
+    },
+    {
+      "id": "advance_end_period_balance",
+      "name": "End of Period Balance",
+      "balance_sheet": true,
+      "parent_id": "advance_deposit",
+      "type": {
+        "name": "stats"
+      },
+      "values": {
+        "actual": {
+          "value": {
+            "expression": {
+              "operator": "+",
+              "arg1": {
+                "item_id": "advance_begin_period_balance"
+              },
+              "arg2": {
+                "item_id": "advance_net_change"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
